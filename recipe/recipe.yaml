@@ -11,7 +11,7 @@ source:
   sha256: 9985f141902a17de818e264d17c1ce334b748e499ee02fcb4703e4dc0038f89c
 
 build:
-  number: 0
+  number: 1
   skip: not osx
   script:
     # SPIRV-Cross, Vulkan-Headers, and cereal are fetched via CPM at configure
