@@ -20,12 +20,7 @@ build:
     # MVK_EXCLUDE_SPIRV_TOOLS=ON drops the SPIRV-Tools (and SPIRV-Headers)
     # vendoring; the only cost is no human-readable SPIR-V disassembly in
     # MoltenVK's debug error messages.
-    - cmake -G Ninja -B build
-        -DCMAKE_BUILD_TYPE=Release
-        -DCMAKE_INSTALL_PREFIX="${PREFIX}"
-        -DCMAKE_INSTALL_LIBDIR=lib
-        -DMVK_HIDE_VULKAN_SYMBOLS=ON
-        -DMVK_EXCLUDE_SPIRV_TOOLS=ON
+    - cmake -G Ninja -B build -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="${PREFIX}" -DCMAKE_INSTALL_LIBDIR=lib -DMVK_HIDE_VULKAN_SYMBOLS=ON -DMVK_EXCLUDE_SPIRV_TOOLS=ON
     - cmake --build build --parallel ${CPU_COUNT}
     - cmake --install build
     # The upstream CMakeLists hard-codes etc/vulkan/icd.d/ for the ICD descriptor
@@ -35,8 +30,7 @@ build:
     - mkdir -p "${PREFIX}/share/vulkan/icd.d"
     - mv "${PREFIX}/etc/vulkan/icd.d/MoltenVK_icd.json" "${PREFIX}/share/vulkan/icd.d/"
     - rmdir "${PREFIX}/etc/vulkan/icd.d" "${PREFIX}/etc/vulkan" 2>/dev/null || true
-    - sed -i.bak 's|"[^"]*/libMoltenVK.dylib"|"../../../lib/libMoltenVK.dylib"|'
-        "${PREFIX}/share/vulkan/icd.d/MoltenVK_icd.json"
+    - sed -i.bak 's|"[^"]*/libMoltenVK.dylib"|"../../../lib/libMoltenVK.dylib"|' "${PREFIX}/share/vulkan/icd.d/MoltenVK_icd.json"
     - rm "${PREFIX}/share/vulkan/icd.d/MoltenVK_icd.json.bak"
     # MoltenVK-specific extension headers. Standard Vulkan headers (vulkan/,
     # vk_video/) come from the vulkan-headers package.
